@@ -22,10 +22,12 @@
                 {{else}}我的餐廳清單
                 {{/if}}
             </a>
+            {{#if isAuthenticated}}
             <div>
                 <a href="/restaurants/new" class="mr-3" style="color: #008b8b;">新增餐廳</a>
                 <a href="/users/logout" style="color: grey;">登出</a>
             </div>
+            {{/if}}
             </div>
         </nav>
 

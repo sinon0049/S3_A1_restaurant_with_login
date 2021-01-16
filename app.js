@@ -1,8 +1,12 @@
+//load dotenv
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config()
+}
 //assign port and load required modules
 const express = require('express')
 const session = require('express-session')
 const app = express()
-const port = 3000
+const port = process.env.PORT
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
@@ -17,6 +21,7 @@ const usePassport = require('./config/passport')
 //load connect-flash
 const flash = require('connect-flash')
 
+
 //set handlebars, body-parser and method-override
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -25,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 //set express-session
 app.use(session({
-    secret: 'ThisIsMySecret',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }))
