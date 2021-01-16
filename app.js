@@ -14,6 +14,8 @@ const routes = require('./routes')
 require('./config/mongoose')
 //load passport
 const usePassport = require('./config/passport')
+//load connect-flash
+const flash = require('connect-flash')
 
 //set handlebars, body-parser and method-override
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}))
@@ -27,11 +29,14 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
-//set passport and routes
+//set passport, connect-flash and routes
 usePassport(app)
+app.use(flash())
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.isAuthenticated()
     res.locals.user = req.user
+    res.locals.success_msg = req.flash('success_msg')
+    res.locals.warning_msg = req.flash('warning_msg')
     next()
 })
 app.use(routes)
