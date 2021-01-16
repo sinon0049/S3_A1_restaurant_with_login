@@ -4,7 +4,7 @@ const Restaurant = require('../../models/restaurant')
 
 //search function
 router.get('/search', (req, res) => {
-    const keyword = req.query.keyword.trim()
+    const keyword = req.query.keyword.trim().toLowerCase()
     const userId = req.user._id
     return Restaurant.find({ userId })
     .lean()
