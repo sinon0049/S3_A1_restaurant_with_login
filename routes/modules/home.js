@@ -4,7 +4,8 @@ const Restaurant = require('../../models/restaurant')
 
 //homepage
 router.get('/', (req, res) => {
-    Restaurant.find()
+    const userId = req.user._id
+    Restaurant.find({ userId })
     .lean()
     .then(restaurant => res.render('index', { restaurant }))
     .catch(error => console.log(error))
@@ -19,10 +20,11 @@ router.get('/sort/:sorting', (req, res) => {
         location: false
     }
     const sorting = req.params.sorting
+    const userId = req.user._id
     switch(sorting){
         case 'A-Z':
             sortRecord.aToZ = true
-            Restaurant.find()
+            Restaurant.find({ userId })
             .lean()
             .sort({ name: 'asc' })
             .then(restaurant => res.render('index', { restaurant, sortRecord }))
@@ -30,7 +32,7 @@ router.get('/sort/:sorting', (req, res) => {
             break
         case 'Z-A' :
             sortRecord.zToA = true
-            Restaurant.find()
+            Restaurant.find({ userId })
             .lean()
             .sort({ name: 'desc' })
             .then(restaurant => res.render('index', { restaurant, sortRecord }))
@@ -38,7 +40,7 @@ router.get('/sort/:sorting', (req, res) => {
             break
         case 'category' :
             sortRecord.category = true
-            Restaurant.find()
+            Restaurant.find({ userId })
             .lean()
             .sort({ category: 'asc' })
             .then(restaurant => res.render('index', { restaurant, sortRecord }))
@@ -46,7 +48,7 @@ router.get('/sort/:sorting', (req, res) => {
             break
         case 'location' :
             sortRecord.location = true
-            Restaurant.find()
+            Restaurant.find({ userId })
             .lean()
             .sort({ location: 'asc' })
             .then(restaurant => res.render('index', { restaurant, sortRecord }))

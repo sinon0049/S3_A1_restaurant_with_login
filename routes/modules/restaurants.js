@@ -5,8 +5,12 @@ const Restaurant = require('../../models/restaurant')
 //search function
 router.get('/search', (req, res) => {
     const keyword = req.query.keyword.trim()
-    return Restaurant.find({$or: [{name: { '$regex': keyword, '$options': 'i' }}, {name_en: { '$regex': keyword, '$options': 'i' }}, {category: { '$regex': keyword, '$options': 'i' }}]})
+    const userId = req.user._id
+    return Restaurant.find({ userId })
     .lean()
+    .then(restaurant => {
+        return restaurant.filter(item => item.name.toLowerCase().includes(keyword) || item.name_en.toLowerCase().includes(keyword) ||item.category.toLowerCase().includes(keyword))
+    })
     .then(restaurant => res.render('index', { restaurant, keyword }))
     .catch(error => console.log(error))
 })
@@ -17,16 +21,29 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const newRestaurant = req.body
-    return Restaurant.create(newRestaurant)
+    const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+    const userId = req.user._id
+    return Restaurant.create({
+        name,
+        name_en,
+        category,
+        image,
+        location,
+        phone,
+        google_map,
+        rating,
+        description,
+        userId
+    })
     .then(res.redirect('/'))
     .catch(error => console.log(error))
 })
 
 //restaurant details
 router.get('/:id', (req,res) => {
-    const id = req.params.id
-    return Restaurant.findById(id)
+    const _id = req.params.id
+    const userId = req.user._id
+    return Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurant => res.render('show', { restaurant }))
     .catch(error => console.log(error))
@@ -34,8 +51,9 @@ router.get('/:id', (req,res) => {
 
 //delete restaurant
 router.delete('/:id', (req, res) => {
-    const id = req.params.id
-    return Restaurant.findById(id)
+    const _id = req.params.id
+    const userId = req.user._id
+    return Restaurant.findOne({ _id, userId })
     .then(restaurant => restaurant.remove())
     .then(res.redirect('/'))
     .catch(error => console.log(error))
@@ -43,16 +61,18 @@ router.delete('/:id', (req, res) => {
 
 //edit restaurant page and edit function
 router.get('/:id/edit', (req, res) => {
-    const id = req.params.id
-    return Restaurant.findById(id)
+    const _id = req.params.id
+    const userId = req.user._id
+    return Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurant => res.render('edit', {restaurant}))
     .catch(error => console.log(error))
 })
 
 router.put('/:id', (req, res) => {
-    const id = req.params.id
-    return Restaurant.findById(id)
+    const _id = req.params.id
+    const userId = req.user._id
+    return Restaurant.findOne({ _id, userId })
     .then(restaurant => {
         restaurant.name = req.body.name
         restaurant.name_en = req.body.name_en

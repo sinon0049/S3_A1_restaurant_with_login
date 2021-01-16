@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const user = require('./user')
 const Schema = mongoose.Schema
 const restaurantSchema = new Schema({
     name: {
@@ -36,6 +37,12 @@ const restaurantSchema = new Schema({
     description: {
         type: String,
         required: false
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        index: true,
+        required: true
     }
 })
 module.exports = mongoose.model('Restaurant', restaurantSchema)
