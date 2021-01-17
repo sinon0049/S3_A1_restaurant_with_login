@@ -1,9 +1,17 @@
 # Restaurant list
 
-This is a restaurant list which you can use to find restaurants stored in the website.
+This is a restaurant list which you can use login feature to have your owb restaurant list.
 
 ## Features
+First, create an account with
+  + your name(optional)
+  + your email
+  + and a pasword 
 
+or just use Facebook login.
+  
+Then, you can create ant restaurant you want with some informations of the restaurant.
+  
 Click the restaurants, and you can see...
   + Food categories
   + Addresses
@@ -12,32 +20,35 @@ Click the restaurants, and you can see...
   + Photos
   
 Besides the details above, you can also...
-  + Create restaurants you want and delete what you dislike
+  + Delete what you do not like at any time
   + Use "排序(sort)" to sort rstaurants by the order you want
 
 ## Download, install and run
 + Use Terminal to download the repository
 ```
-git clone https://github.com/sinon0049/S2-3_A8_restaurant_list_refactored.git
+git clone https://github.com/sinon0049/S3_A1_restaurant_with_login.git
 ```
 + Download MongoDB and create a database called "restaurant-list"
-+ Download Express and Handlebars in the folder ```S2-3_A8_restaurant_list_refactored```
++ Download some necessary middlewares in the folder ```S3_A1_restaurant_with_login```
 ```
+npm i bcryptjs
+npm i body-parser
+npm i connect-flash
+npm i dotenv
 npm i express
 npm i express-handlebars
-npm i body-parser
-npm i mongoose
+npm i express-session
 npm i method-override
-```
-or install them together
-```
-npm i express express-handlebars body-parser mongoose method-override
+npm i mongoose
+npm i passport
+npm i passport-facebook
+npm i passport-local
 ```
 + Use npm command to add seed data
 ```
 npm run seed
 ```
-or run the project directly
+or you can run the project directly
 ```
 npm run dev
 ```
@@ -56,5 +67,10 @@ mongodb connected!
 + jquery 3.3.1
 + Font Awesome
 + MongoDB
-+ Mongoose 5.10.14
++ Mongoose 5.11.12
 + Method-override 3.0.0
++ bcrypt.js 2.4.3
++ body-parser 1.19.0
++ connect-flash 0.1.1
++ dotenv 8.2.0
++ Passport 0.4.1

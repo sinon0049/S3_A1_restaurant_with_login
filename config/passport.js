@@ -19,7 +19,7 @@ module.exports = app => {
                 if(!isMatch) {
                     return done(null, false, req.flash('warning_msg', '信箱或密碼錯誤!'))
                 }
-                return done(null, user, req.flash('success_msg', '你已成功登入。'))
+                return done(null, user)
             })
         })
         .catch(err => done(err, false))
